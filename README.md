@@ -1,6 +1,8 @@
 # VoiceNote
 
-VoiceNote is a Python application that uses the [Picovoice](https://picovoice.ai/) Porcupine library to detect specific keywords in real-time audio and record the audio after the keyword is detected.
+VoiceNote is a Python application that uses the [Picovoice](https://picovoice.ai/) Porcupine library to detect specific keywords in real-time audio and record the audio after the keyword is detected. The audio is then converted to text through [whisper](https://github.com/openai/whisper). 
+
+The future goal is to have it running in the background of my linux computers via systemcl to be able to take note on the fly.
 
 ## Setup
 
@@ -8,7 +10,13 @@ VoiceNote is a Python application that uses the [Picovoice](https://picovoice.ai
 2. Install the required Python packages:
 
 ```sh
-pip install sounddevice numpy scipy pvporcupine
+pip install sounddevice numpy scipy pvporcupine openai-whisper
+```
+
+You may need to install portAudio and ffmeg
+```sh
+sudo apt install libportaudio2
+sudo apt install ffmpeg
 ```
 
 You will need to provide a [Picovoice](https://picovoice.ai/) access key in a file named keys.json. 
