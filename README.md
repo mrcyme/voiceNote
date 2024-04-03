@@ -1,44 +1,47 @@
-# VoiceNote
+# Voice Note Recorder
 
-VoiceNote is a Python application that uses the [Picovoice](https://picovoice.ai/) Porcupine library to detect specific keywords in real-time audio and record the audio after the keyword is detected. The audio is then converted to text through [whisper](https://github.com/openai/whisper). 
+This Python script listens for a specific keyword ("blueberry") and then records speech, converting it to text until a pause in speech is detected. The text is saved in a designated folder with a filename based on the current date. This script utilizes Picovoice's Porcupine for wake word detection and Cheetah for speech-to-text conversion.
 
-The future goal is to have it running in the background of my linux computers via systemcl to be able to take note on the fly.
+## Features
 
-## Setup
+- **Keyword Activation**: Starts recording when the keyword "blueberry" is detected.
+- **Speech to Text**: Converts spoken words to text using Picovoice's Cheetah.
+- **Automatic Saving**: Saves the transcribed text to a file, appending new text with each activation.
 
-1. Clone the repository.
-2. Install the required Python packages:
+## Requirements
 
-```sh
-pip install sounddevice numpy scipy pvporcupine openai-whisper
-```
+- Python 3.6 or higher
+- `pvporcupine` for wake word detection
+- `pvcheetah` for speech-to-text conversion
+- `pvrecorder` for audio recording
 
-You may need to install portAudio and ffmeg
-```sh
-sudo apt install libportaudio2
-sudo apt install ffmpeg
-```
+## Installation
 
-You will need to provide a [Picovoice](https://picovoice.ai/) access key in a file named keys.json. 
+1. Ensure Python 3.6 or higher is installed on your system.
+2. Install the required Picovoice packages using pip:
+
+    ```bash
+    pip install pvporcupine pvcheetah pvrecorder
+    ```
+
+3. Clone this repository or download the script to your local machine.
+4. Obtain an AccessKey from Picovoice Console (https://console.picovoice.ai/) and add it to a `keys.json` file in the script's directory:
+
+    ```json
+    {
+        "PVPORCUPINE_ACCESS_KEY": "Your-Access-Key-Here"
+    }
+    ```
 
 ## Usage
-```sh
-python main.py
+
+Run the script from the command line, optionally specifying the output path for the text files:
+
+```bash
+python voiceNote.py --output_path "the folder where you want to save the notes"
 ```
-The script listens for the keyword "blueberry". When it detects the keyword, it starts recording audio. The recording stops after 5 seconds of silence.
+The script will continuously listen for the keyword "blueberry". Upon detection, it starts recording speech and transcribes it to text. The text is saved in a designated folder with filenames based on the current date.
 
-The recorded audio is saved in a file named output1.wav.
-
-Configuration
-You can customize the application by modifying the parameters in main.py:
-
-fs: The sample rate.
-filename: The name of the output file.
-keywords: The keywords to detect.
-silence_threshold: The threshold for silence detection.
-record_after_stop_seconds: The duration of silence before stopping the recording.
-You also need to provide a Picovoice access key in a file named keys.json.
-
-License
-This project is licensed under the MIT License.
-
+## Optional Arguments
+- --output_path: The absolute path to the folder where the recorded text notes will be saved. Defaults to "~/Documents/digitalFabrication/voiceNote".
+- --endpoint_duration_sec: The duration in seconds for which speechless audio is considered an endpoint, indicating the end of a speech segment. Defaults to 10 seconds.
